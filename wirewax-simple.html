@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wirewax sample</title>
+<link type="text/css" rel="stylesheet" href="foundation-642/css/foundation.min.css" />
+<link type="text/css" rel="stylesheet" href="foundation-642/css/app.css" />
+</head>
+
+<body>
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="large-8 cell">
+      <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;float:left">
+        <iframe style="position: absolute; top: 0; left: 0;" width="100%" height="100%" src="//embed.wirewax.com/8077689/" frameborder="0" scrolling="yes" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>  
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="large-8 cell">
+      This is an example of an Ooyala video used within the Wirewax iFrame API framework.  
+      <p>The experience is responsive, and utilizes Ooyala's native closed captioning.</p>
+    </div>
+  </div>
+</div>  
+  
+<!-- Include plugins necessary for player -->
+<!-- core provides basic player support-->
+<script src="//player.ooyala.com/static/v4/production/latest/core.min.js"></script>
+<!-- bit_wrapper supports HLS-everywhere and Dash support -->
+<script src="//player.ooyala.com/static/v4/production/latest/video-plugin/bit_wrapper.min.js"></script>
+<!-- main_html5 support browser supported video formats -->
+<script src="//player.ooyala.com/static/v4/production/latest/video-plugin/main_html5.min.js"></script>
+<!-- html5-skin supports the basic player UI -->
+<!-- Player UI Definitions-->
+<script src="//player.ooyala.com/static/v4/production/latest/skin-plugin/html5-skin.min.js"></script>
+<!-- Include the style sheet used by the player -->
+<link rel="stylesheet" href="//player.ooyala.com/static/v4/production/latest/skin-plugin/html5-skin.min.css"/>
+<!-- The following div will contain the instantiated player, and is identified by id -->
+<div id='container_1514913497' ></div>
+<!-- Player parameter modify some basic player behaviors and looks -->
+<script>
+  var playerParam = {
+    'pcode':'poc2U6fYb4O9fkMrOrsuaoxDiL7M',
+    'playerBrandingId':'858dc167a9894974a40d4d289b317fe5',
+    'autoplay':false,
+    'loop':false
+  };
+  OO.ready(function() {window.pp = OO.Player.create('container_1514913497', 'RoN2prZDE61jdLvNrRZUOJFKv4xcAnGs', playerParam);});
+</script>
+
+<script src="foundation-642/js/vendor/jquery.js"></script> 
+<script src="foundation-642/js/vendor/what-input.js"></script> 
+<script src="foundation-642/js/vendor/foundation.min.js"></script>
+</body>
+</html>

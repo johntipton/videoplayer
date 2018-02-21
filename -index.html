@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Video Player UI</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="brand">Video Player UI Stories</div>
+    <div class="address-bar">JT</div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Video Players</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li>
+                        <a href="blog.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12 text-center">
+									<script src="http://player.ooyala.com/v3/NzI5Mjk2NjM2MGZlN2E4NmUwNTRiNDNm?platform=html5-priority&namespace=dellvideoplayer" type="text/javascript"> </script>
+                  <div id="9462" class="playerwrapper"></div>
+                  <script>
+                      //hack to make masthead appear above video
+      
+                      var captionsXml;
+                      var currentCaption = "";
+                      var lastCaption = "";
+                      var captions = [];
+                      var allCaptions = [];
+                      var numCCLanguages = 0;
+                      var languageList = [];
+                      var captionsUrl = "";
+                      var videoApiUrl = 'getclosedcaptions.php?embedcode=cwazN4azruLD1i-8f7a9_KzubXaLkjFB&s=master';
+                      var idModel = 'f49f4c64-098a-40df-b14e-613fa34f88ab';
+      
+                      // ***************************************************
+                      // Ooyala READY FUNCTION
+                      // ***************************************************
+                      dellvideoplayer.ready(function () {
+                          var playerConfiguration = {
+                              width: "100%",
+                              height: "100%",
+                              wmode: 'transparent',
+                              autoplay: false,
+                              enableChannels: true,
+                              initialTime: 0,
+                              locale: "en_us",
+                              loop: false,
+                              flashParams: {
+                                  "thruParam_omniture-dell-other[prop49]": "c=us&l=en&s=bsd"
+                              },
+                              prebuffering: false,
+                              useFirstVideoPlaylist: false,
+                              onCreate: window.createPlayer
+                          };
+      
+                          dellvideoplayer.Player.create('9462', 'cwazN4azruLD1i-8f7a9_KzubXaLkjFB', playerConfiguration);
+                      });
+      
+                      function resizeVideo(obj) 
+											{
+                      	var div = document.getElementById(obj.elementId);
+                        //div.style.height = 360 + 'px';
+                        //div.style.width = 640 + 'px';
+												var _oWidth = $( div ).width();
+												var _newHeight = _oWidth * 9 / 16;
+												$( div ).height( _newHeight );
+      
+                      }
+      
+                      // Find the correct current CC
+                      function findCurrentCC(_locLanguage, _locCountry) {
+                          for (var _a = 0; _a < languageList.length; _a++) {
+                              var _listLang = languageList[_a].toLowerCase();
+                              var _locale = (_locCountry != undefined) ? (_locLanguage + "-" + _locCountry) : _locLanguage;
+                              // check for special cases
+                              if (_locale.toLowerCase() == "zh-cn") {
+                                  _locale = "zh-hans";
+                              } else if (_locale.toLowerCase() == "zh-tw") {
+                                  _locale = "zh-hant";
+                              }
+                              if (_listLang.toLowerCase() == _locale.toLowerCase()) {
+                                  return allCaptions[_a];
+                              }
+                          }
+                          return [];
+                      }
+      
+                      function parseRuntime(seconds) {
+                          sec_numb = parseInt(seconds);
+                          var hours = Math.floor(sec_numb / 3600);
+                          var minutes = Math.floor((sec_numb - (hours * 3600)) / 60);
+                          var seconds = sec_numb - (hours * 3600) - (minutes * 60);
+      
+                          if (hours < 10) {
+                              hours = "0" + hours;
+                          }
+                          if (minutes < 10) {
+                              minutes = "0" + minutes;
+                          }
+                          if (seconds < 10) {
+                              seconds = "0" + seconds;
+                          }
+                          var time = hours + ':' + minutes + ':' + seconds;
+                          return time;
+                      }
+      
+                      function getTime(time) {
+                          var time = time.split(":");
+                          var hours = parseInt(time[0], 10);
+                          var minutes = parseInt(time[1], 10);
+                          var seconds = parseInt(time[2], 10);
+                          return ((hours * 3600) + (minutes * 60) + seconds);
+                      };
+      
+      
+                      function createCaptionsCollection(d) {
+                          numCCLanguages = d.length;
+                          var _allCaptions = [];
+                          var _lastLanguage = "xx";
+                          var _currentLanguage = "";
+      
+                          if (numCCLanguages > 0) {
+                              $('body').append('\
+                                      <div id="ccLanguageModal" style="display:none;">\
+                                          <p style="margin-bottom:10px;">Captions : \
+                                              <a id="on-caption" href="javascript:void(0);" class="ooyala-caption" onClick="onCaptions();">On</a>\
+                                              <a id="off-caption" href="javascript:void(0);" class="disabled ooyala-caption" onClick="offCaptions();">Off</a>\
+                                          </p>\
+                                          <ul id="listLanguages"></ul>\
+                                      </div>');
+      
+                          }
+                          // create a quick array of language codes (assumes that these are in the same order)
+                          for (var _z = 0; _z < numCCLanguages; _z++) {
+                              var divElement = $(d[_z]);
+                              //languages
+                              var _langCode = divElement.attr("xml:lang");
+                              var _langName = mapLanguageCodes(_langCode);
+                              languageList.push(_langCode);
+                              // populate the language list modal
+                              $("#listLanguages").append("<li class=\"ccLanguage\" data=\"" + _langCode + "\" >" + _langName + "</li>");
+      
+                              //process the captions
+                              var _caption = [];
+                              // grab the <p> element
+                              var _el = divElement.find("p");
+                              // spin through the <p>
+                              for (var _y = 0; _y < _el.length; _y++) {
+                                  // get parent language
+                                  _currentLanguage = _langCode;
+                                  if (_currentLanguage != _lastLanguage) {
+                                      _caption.push({ "begin": getTime($(_el[_y]).attr("begin")), "end": getTime($(_el[_y]).attr("end")), "text": $(_el[_y]).text() });
+                                  }
+                              }
+                              _lastLanguage = _currentLanguage;
+                              _allCaptions.push(_caption);
+                          }
+                          // add event handler
+                          $(".ccLanguage").bind("click", this, changeCC);
+      
+                          return _allCaptions;
+                      }
+      
+                      function getClosedCaptions(language, country, elementId) {
+                          if (captionsUrl != "")
+                              getCaptionsFromOoyala(language, country);
+                          else {
+                              $.getJSON(videoApiUrl, null).done(function (data) {
+                                  captionsUrl = data.captionsUrl;
+                                  var error = data.error;
+                                  if (!error && captionsUrl != "") {
+                                      getCaptionsFromOoyala(language, country, elementId);
+                                  }
+                              }).fail(function (data) {
+                                  console.log("ajax call failed for captions url");
+                              });
+                          }
+                      }
+      
+                      function getCaptionsFromOoyala(language, country, elementId) {
+                          $.ajax({
+                              url: captionsUrl,
+                              type: "GET",
+                              dataType: "xml"
+                          }).done(function (xmldata) {
+                              captionsXml = $(xmldata);
+                              allCaptions = createCaptionsCollection(captionsXml.find("div"));
+      
+                              if (allCaptions.length > 0) {
+                                  var playerRoot = $("#" + elementId);
+                                  playerRoot.find('.oo_controls').append('\
+                                  <div id="captionsContainer">\
+                                    <div id="captionBackground">\
+                                      &nbsp;\
+                                    </div>\
+                                    <div id="caption">\
+                                    </div>\
+                                  </div>\
+                                  ');
+      
+                                  addCCButton(elementId);
+                                  //languageList - spin through the language list and grab the current CC captions
+                                  // first try full locale
+                                  captions = findCurrentCC(language, country);
+                                  if (captions.length == 0) {
+                                      captions = findCurrentCC(language);
+                                  }
+                              } 
+      
+                          }).fail(function (xmldata) {
+                              console.log("Did not get closed captions");
+                          });
+                      }
+      
+      
+                      // ***************************************************
+                      // CREATE FUNCTION
+                      // ***************************************************
+                      function createPlayer(player) {
+                          // call the resize
+                          resizeVideo(player);
+      
+                          // set global message bus - use the window.messageBus object outside of this function
+                          window.messageBus = player.mb;
+      
+                          // subscribe to resize event to resize for responsiveness
+                          //player.subscribe(dellvideoplayer.EVENTS.SIZE_CHANGED, "myPage", function (eventName) {
+                          //    resizeVideo(player);
+                          //});
+      
+                          // detect flash - if no Flash, subscribe to events
+                          var flashVideoPlayerObj = $("object[id*='OoFlash']");
+                          if (flashVideoPlayerObj.length == 0) {
+      
+                              window.messageBus.subscribe(dellvideoplayer.EVENTS.PLAYER_CREATED, "myPage", function (eventName, elementId, params) {
+                                  var flashVideoPlayerObj2 = $("object[id*='OoFlash']");
+                                  if (flashVideoPlayerObj2.length == 0) {
+                                      getClosedCaptions('en', 'us', elementId);
+                                  }
+                              });
+      
+                              window.messageBus.subscribe(dellvideoplayer.EVENTS.PLAYING, "myPage", function (eventName) {
+                                  window.messageBus.unsubscribe(dellvideoplayer.EVENTS.PLAYING, "myPage");
+                                  // event16 - start
+                                  if (typeof (s_dell) != 'undefined') {
+                                      s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+                                      s_dell.linkTrackEvents = 'event16';
+                                      s_dell.events = s_dell.apl(s_dell.events, 'event16', ',', 2);
+                                      s_dell.eVar24 = player.embedCode;
+                                      s_dell.tl(true, 'o', player.embedCode);
+                                  }
+                              });
+                              window.videoEightyPercent = false;
+                              window.videoComplete = false;
+                              window.messageBus.subscribe(dellvideoplayer.EVENTS.PLAYHEAD_TIME_CHANGED, "myPage", function (eventName, currentTime, totalTime) {
+                                  var perc = currentTime / totalTime;
+      
+                                  if (typeof (s_dell) != 'undefined') {
+                                      if (perc >= 0.8 && perc < 1 && !window.videoEightyPercent) {
+                                          window.videoEightyPercent = true;
+                                          s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+                                          s_dell.linkTrackEvents = 'event33';
+                                          s_dell.events = s_dell.apl(s_dell.events, 'event33', ',', 2);
+                                          s_dell.eVar24 = player.embedCode;
+                                          s_dell.tl(true, 'o', player.embedCode);
+                                      }
+                                      else if (perc >= 1 && !window.videoComplete) {
+                                          window.videoComplete = true;
+                                          s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+                                          s_dell.linkTrackEvents = 'event34';
+                                          s_dell.events = s_dell.apl(s_dell.events, 'event34', ',', 2);
+                                          s_dell.eVar24 = player.embedCode;
+                                          s_dell.tl(true, 'o', player.embedCode);
+                                      }
+                                  }
+      
+                                  onPlayheadTimeChanged(currentTime);
+                              });
+                          }
+      
+                      }
+      
+                      //allow full screen for modal videos
+                      /*if (typeof (window.top.document) != 'undefined' && typeof ($(document) != 'undefined') && window.top.document != $(document)) {
+                          $(window.top.document).find('.uif_modal_iframe').attr('allowfullscreen', true);
+                          $(window.top.document).find('.uif_modal_iframe').attr('mozallowfullscreen', true);
+                          $(window.top.document).find('.uif_modal_iframe').attr('webkitallowfullscreen', true);
+      
+                          //for browse modals
+                          $(window.top.document).find('.modalFrame').attr('allowfullscreen', true);
+                          $(window.top.document).find('.modalFrame').attr('mozallowfullscreen', true);
+                          $(window.top.document).find('.modalFrame').attr('webkitallowfullscreen', true);
+                      }*/
+      
+                      /*
+              Get the localized language name for each locale code
+              e.g. "en-US" = "English (US)"
+          */
+                      function mapLanguageCodes(localeCode) {
+                          switch (localeCode.toLowerCase()) {
+                          case "da":
+                              return "Dansk";
+                          case "de":
+                              return "Deutsch";
+                          case "en":
+                              return "English";
+                          case "en-us":
+                              return "English (US)";
+                          case "en-uk":
+                              return "English (UK)";
+                          case "es":
+                              return "Español";
+                          case "fr":
+                              return "Français";
+                          case "hi":
+                              return "हिन्दी";
+                          case "it":
+                              return "Italiano";
+                          case "ja":
+                              return '日本語';
+                          case "ko":
+                              return "조선말, 한국어";
+                          case "nl":
+                              return "Nederlands";
+                          case "pt":
+                          case "pt-pt":
+                              return "Português";
+                          case "pt-br":
+                              return "Português (Brasil)";
+                          case "zh-hans":
+                              return "简体中文";
+                          case "zh-hant":
+                              return "繁體中文";
+                          case "ar":
+                              return "Arabic";
+                          case "cs":
+                              return "Czech";
+                          case "el":
+                              return "Greek";
+                          case "fi":
+                              return "Finnish";
+                          case "fr-ca":
+                              return "Français (Canada)";
+                          case "he":
+                              return "Hebrew";
+                          case "hu":
+                              return "Hungarian";
+                          case "no":
+                              return "Norweigan";
+                          case "pl":
+                              return "Polish";
+                          case "ro":
+                              return "Romanian";
+                          case "ru":
+                              return "Russian";
+                          case "sv":
+                              return "Swedish";
+                          case "tr":
+                              return "Turkish";
+                          }
+                      }
+      
+                      function changeCC(obj) {
+                          if ($(this).hasClass("ccLanguage-disabled") == false) {
+                              var _langStr = obj.target.attributes.data.nodeValue;
+                              captions = findCurrentCC(_langStr);
+                              $("#ccLanguageModal").trigger('reveal:close');
+                              $("#videoLanguage01").hide();
+                              $("#cc_icon").attr("lanHidden", "true");
+                          }
+                          window.messageBus.publish(dellvideoplayer.EVENTS.PLAY);
+                      }
+      
+                      function onPlayheadTimeChanged(currentTime) {
+                          var _playheadTime = currentTime;
+                          var currentCaption;
+                          // determine the language
+                          for (var caption in captions) {
+                              var caption = captions[caption];
+                              if (_playheadTime > caption["begin"]) {
+                                  if (_playheadTime <= caption["end"]) {
+                                      currentCaption = caption;
+                                  }
+                              }
+                              else if (currentCaption) {
+                                  break;
+                              }
+                          };
+                          if (currentCaption && (currentCaption != "")) {
+                              $("#captionsContainer").css("opacity", "1");
+                              $("#caption")[0].innerHTML = currentCaption["text"];
+                          }
+                          else {
+                              $("#captionsContainer").css("opacity", "0");
+                          }
+                          if (lastCaption != currentCaption) {
+                              $("#captionsContainer").css("width", "100%");
+                              if (currentCaption != "") {
+                                  resizeCaptions();
+                              }
+                          }
+                          lastCaption = currentCaption;
+                      }
+      
+                      function ccButtonHandler() {
+      
+                          if ($.trim($(this).attr("lanHidden")) == "true") {
+                              $("#videoLanguage01").show();
+                              $("#cc_icon").attr("lanHidden", "false");
+                              window.messageBus.publish(dellvideoplayer.EVENTS.PAUSE);
+                          } else {
+                              $("#videoLanguage01").hide();
+                              $("#cc_icon").attr("lanHidden", "true");
+                              window.messageBus.publish(dellvideoplayer.EVENTS.PLAY);
+                          }
+                      }
+      
+                      function addCCButton(elementId) {
+                          $("#" + elementId).find(".vod").append("<div id=\"cc_icon\" class=\"oo_button oo_toolbar_item oo_cc\" lanHidden=\"true\"></div>");
+                          $("#cc_icon").bind("click", "", ccButtonHandler);
+                          var playerId = elementId;
+                          var playerObj = $("#" + playerId);
+                          var vodNode = playerObj.find(".vod");
+                          playerObj.find('.oo_controls').attr("cc", "cc");
+                          var ccPopupHtml = '<div id="videoLanguage01" style="position: absolute; z-index: 11000; right: 0px; /* top: -251px; */ border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgb(204, 204, 204) 2px 2px 2px; padding: 10px; border: 1px solid rgb(255, 255, 255); width: 418px; height: 191px; overflow-y: auto; display: block; background-color: rgb(255, 255, 255);bottom: 42px;"></div>';
+                          $(vodNode).append(ccPopupHtml);
+                          $("#videoLanguage01").append($("#ccLanguageModal"));
+                          $("#ccLanguageModal").show();
+                          $("#videoLanguage01").hide();
+                          $("#cc_icon").attr("lanHidden", "true");
+                      }
+      
+                      function resizeCaptions() {
+                          $("#captionsContainer").css("height", $("#caption").height());
+                          $("#captionsContainer").css("top", (-$("#caption").height() - 10) + "px");
+                          $("#captionBackground").css("width", $("#caption").width());
+                          $("#captionBackground").css("left", (($("#captionsContainer").width() - $("#caption").width()) / 2) + "px");
+                          $("#captionBackground").css("height", $("#caption").height());
+                          $("#caption").css("left", $("#captionBackground").css("left"));
+                      }
+      
+                      function offCaptions() {
+                          if ($("#off-caption").hasClass("disabled")) {
+                              $("#off-caption").removeClass("disabled");
+                              $("#on-caption").addClass("disabled");
+                              $("#captionsContainer").hide();
+                              $("#listLanguages").hide();
+                              $(".ccLanguage").addClass("ccLanguage-disabled");
+                              $("#videoLanguage01").hide();
+                              $("#cc_icon").attr("lanHidden", "true");
+                              window.messageBus.publish(dellvideoplayer.EVENTS.PLAY);
+                          }
+                      }
+      
+      
+                      function onCaptions() {
+                          if ($("#on-caption").hasClass("disabled")) {
+                              $("#on-caption").removeClass("disabled");
+                              $("#off-caption").addClass("disabled");
+                              $("#captionsContainer").show();
+                              $("#listLanguages").show();
+                              $(".ccLanguage").removeClass("ccLanguage-disabled");
+                          }
+                      }
+      
+                  </script>
+						      </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; 2014 Littlepixie</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+</body>
+
+</html>

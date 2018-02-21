@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ooyala Test Page</title>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="//player.ooyala.com/static/v4/stable/4.10.4/core.min.js"></script>
+<script src="//player.ooyala.com/static/v4/stable/4.10.4/video-plugin/main_html5.min.js"></script>
+<script src="//player.ooyala.com/static/v4/stable/4.10.4/skin-plugin/html5-skin.min.js"></script>
+<script src="//player.ooyala.com/static/v4/stable/4.10.4/video-plugin/bit_wrapper.min.js"></script>
+<script src="//player.ooyala.com/static/v4/stable/4.10.4/other-plugin/playlists.js"></script>
+<script src="video-iframe-player.js"></script>
+<link rel="stylesheet" href="//player.ooyala.com/static/v4/stable/4.10.4/skin-plugin/html5-skin.min.css"/>
+<script>
+	// global
+	var qsParamsArray = [];
+	
+	// get single var
+	function getQueryVariable(variable)
+	{
+  	for (var i=0;i<qsParamsArray.length;i++) 
+		{
+			var pair = qsParamsArray[i];
+			var theKey = Object.keys(pair);
+			if( theKey[0] == variable)	return pair[theKey];
+    }
+    return(false);
+	}
+	
+	// get all params
+	function getQSParams()
+	{
+		var _vars = {};
+		var _query = window.location.search.substring(1);
+		var _varsArray = _query.split("&");
+		if( _varsArray.length > 0 )
+		{
+			if( _varsArray.length > 1 )
+			{
+				var pair = [];
+				for ( var i=0; i < _varsArray.length; i++ ) 
+				{
+					pair = _varsArray[i].split("=");
+					if(pair.length == 2 )
+					{
+						var _obj = {};
+						_obj[ pair[0] ] = pair[1];
+						qsParamsArray.push( _obj );
+					}		
+				}
+			}
+			else
+			{
+				pair = _varsArray[0].split("=");
+				if(pair.length == 2 )
+				{
+					var _obj = {};
+					_obj[ pair[0] ] = pair[1];
+					qsParamsArray.push( _obj );
+				}
+			}
+		}
+	}
+	</script>	
+</head>
+
+<body>
+
+<div id="container" style="width:640px;height:360px;"></div>
+<script>      
+	var videoId, language, country, segment, playlistId, pcode;
+	
+	$( document ).ready(function() {
+  	getQSParams();
+		videoId = getQueryVariable( "ec" );
+		language = getQueryVariable( "l" );
+		country = getQueryVariable( "c" );
+		segment = getQueryVariable( "s" );
+		playlistId = getQueryVariable( "pl" );
+		pcode = getQueryVariable( "pcode" );
+		createVideo( videoId, language, country, segment, playlistId, pcode );
+	});
+	
+	
+	
+	
+</script>	
+</body>
+</html>

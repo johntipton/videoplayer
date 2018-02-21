@@ -1,0 +1,22 @@
+{
+    "video_gallery" : "Video Gallery",
+    "filter_by" : "フィルタの条件:",
+    "for_home" : "個人のお客様",
+    "for_work" : "法人のお客様",
+    "for_support" : "For Support",
+    "trending_intro" : "What people are watching now.",
+    "search_term" : "検索 語句",
+    "support" : "サポート",
+    "privacy" : "Privacy",
+    "terms" : " 契約 条項",
+    "laptops" : "Laptops",
+    "ultrabooks" : "Ultrabooks",
+    "alienware" : "Alienware",
+    "desktops" : "Desktops",
+    "all-in-ones" : "All-in-Ones",
+    "servers" : "Servers",
+    "networking" : "Networking",
+    "storage" : "Storage",
+    "solutions" : "Solutions",
+    "services" : "Services"
+}

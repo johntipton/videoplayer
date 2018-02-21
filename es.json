@@ -1,0 +1,22 @@
+{
+    "video_gallery" : "Galería de videos",
+    "filter_by" : "Filtrar por:",
+    "for_home" : "Para el hogar",
+    "for_work" : "Para el trabajo",
+    "for_support" : "Videos de soporte",
+    "trending_intro" : "Videos que la gente está viendo ahora",
+    "search_term" : "Término de búsqueda",
+    "support" : "Soporte",
+    "privacy" : "Privacidad",
+    "terms" : "Términos y condiciones",
+    "laptops" : "Portátiles",
+    "ultrabooks" : "Ultrabooks",
+    "alienware" : "Alienware",
+    "desktops" : "Sobremesa",
+    "all-in-ones" : "Todo-en-Uno",
+    "servers" : "Servidoes",
+    "networking" : "Redes",
+    "storage" : "Almacenamiento",
+    "solutions" : "Soluciones",
+    "services" : "Servicios"
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ooyala V4 player upgrade example</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
+<!--<link rel="stylesheet" href="css/app.css">-->
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <!-- This is the core JS, and is required to load first--> 
+  <script src="//player.ooyala.com/static/v4/production/latest/core.min.js"></script>
+  <script src="//player.ooyala.com/static/v4/production/latest/skin-plugin/html5-skin.min.js"></script>
+  <script src="//player.ooyala.com/static/v4/production/latest/video-plugin/main_html5.min.js"></script>
+  <script src="//player.ooyala.com/static/v4/production/latest/video-plugin/bit_wrapper.min.js"></script>
+  <link href="//player.ooyala.com/static/v4/production/latest/skin-plugin/html5-skin.min.css" rel="stylesheet" />
+  <style type="text/css">
+  .oo-icon .oo-icon-pause-slick 
+    {
+      
+    }
+  </style>
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="large-2 medium-2 cell"></div>
+      <div class="large-8 medium-8 cell">
+        <div id="container"></div>
+      </div>
+      <div class="large-2 medium-2 cell"></div>
+    </div>
+  </div>  
+  <script>
+    // vars for the POC    
+    var countryCode, languageCode, fullLocale, segmentCode, videoId;
+    
+    // grab a video that has closed captions for the POC
+    videoId = "tmdHkwYjE6JL9QIrUQkfAjGqt-rfKMiU";
+    
+    // Grab the LWP for this POC
+    countryCode = ( getUrlParameter( "c" ) != "" ) ? getUrlParameter( "c" ) : "de";
+    languageCode = ( getUrlParameter( "l" ) != "" ) ? getUrlParameter( "l" ) : "de";
+    segmentCode = ( getUrlParameter( "s" ) != "" ) ? getUrlParameter( "s" ) : "dhs";
+    
+    if( languageCode == "zh" )
+    {
+      if( countryCode == "cn" || countryCode == "my" || countryCode == "sg")    
+      {
+        fullLocale = "zh-hans";
+      }
+      else
+      {
+        fullLocale = "zh-hant";    
+      }
+    }
+    else
+    {
+      fullLocale = languageCode + "-" + countryCode;  
+    }
+      
+    
+    
+		var playerParam = {
+			"pcode":"RvYmY6hur13N6wMKKnX_HgCa0VEU",
+			"playerBrandingId":"b71985dbc2bf441f93da7897f568754b",
+			"autoplay":false,
+			"loop":false,
+			"debug": false,
+			"playlistsPlugin": {"data":[""]},
+			"useFirstVideoFromPlaylist": false,
+			"initialBitrate" : {"level": 1, "duration": 15},
+			"skin": {
+				"config": "//player.ooyala.com/static/v4/production/latest/skin-plugin/skin.json",
+				"inline": {
+					"startScreen": {
+						"showDescription": false,
+						"showTitle": false
+					},
+					"pauseScreen": {
+						"showDescription": false,
+						"showTitle": false
+					}
+				}
+			},
+			onCreate:onCreate 
+		};
+
+		OO.ready(function() {
+      // global reference for this particular video player
+			window.pp = OO.Player.create( "container", videoId, playerParam);
+		});
+
+    // CREATE 
+		function onCreate( player )
+		{
+      // INTITAL_PLAY
+      player.mb.subscribe( OO.EVENTS.INITIAL_PLAY, "player", function ( eventName, x ) {
+        console.dir( "initial play" );
+        findClosedCaptions();
+      });
+      
+      player.mb.subscribe( OO.EVENTS.PLAYHEAD_TIME_CHANGED, "player", function (eventName, currentTime, totalTime, seekTime) {
+        var percentageTime = currentTime / totalTime;
+        if (videoplayereighty === false && percentageTime > 0.8) {
+          videoplayereighty = true;
+          trackVideoEighty(player.getEmbedCode());
+        }
+      });
+      
+      player.mb.subscribe("endScreenShown", "player", function (eventName) {
+        trackVideoComplete(player.getEmbedCode());
+      });
+      
+		}
+    
+    // For POC  
+    function getUrlParameter(name) 
+    {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }; 
+    
+    function findClosedCaptions()
+    {
+      var objAvailableLanguages = window.pp.getCurrentItemClosedCaptionsLanguages();
+      var arrAvailableLanguages = objAvailableLanguages.languages;
+        
+      // Check full locale against array of language array
+      console.log( "Check for full locale: " + fullLocale );
+      for( var x=0; x < arrAvailableLanguages.length; x++ )
+      {
+        if( fullLocale.toLowerCase() == arrAvailableLanguages[x].toLowerCase() )
+        {
+          // grab the actual language code from the languageArray
+          window.pp.setClosedCaptionsLanguage( arrAvailableLanguages[x] );
+          return;
+        }
+      }
+        
+      // test
+      console.log( "Check for language only: " + languageCode );
+      for( var y=0; y < arrAvailableLanguages.length; y++ )
+      {
+        // test
+        console.log( "array language: " + arrAvailableLanguages[y].toLowerCase() );
+        if( languageCode.toLowerCase() == arrAvailableLanguages[y].toLowerCase() )
+        {
+          // grab the actual language code from the languageArray
+          window.pp.setClosedCaptionsLanguage( arrAvailableLanguages[y] );
+          return;
+        }
+      }
+      // if no codes match, turn CC off
+      window.pp.setClosedCaptionsLanguage( "none" );
+      console.log ( "Just turned off CC" );
+    }
+
+    function trackVideoStart(videoid) 
+    {
+      console.log(videoid + " : start");
+      if (typeof (s_dell) != 'undefined') {
+        s_dell.pageName = s_dell.prop13 = "";
+        s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+        s_dell.linkTrackEvents = 'event16';
+        s_dell.events = s_dell.apl(s_dell.events, 'event16', ',', 2);
+        s_dell.eVar24 = videoid;
+        s_dell.tl(true, 'o', videoid);
+      }
+    }
+    function trackVideoEighty(videoid) 
+    {
+      console.log(videoid + " : 80%");
+      if (typeof (s_dell) != 'undefined') {
+        s_dell.pageName = s_dell.prop13 = "";
+        s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+        s_dell.linkTrackEvents = 'event33';
+        s_dell.events = s_dell.apl(s_dell.events, 'event33', ',', 2);
+        s_dell.eVar24 = videoid;
+        s_dell.tl(true, 'o', videoid);
+      }
+    }
+    function trackVideoComplete(videoid) 
+    {
+      console.log(videoid + " : complete");
+      if (typeof (s_dell) != 'undefined') {
+        s_dell.pageName = s_dell.prop13 = "";
+        s_dell.linkTrackVars = 'prop2,prop13,prop49,eVar24';
+        s_dell.linkTrackEvents = 'event34';
+        s_dell.events = s_dell.apl(s_dell.events, 'event34', ',', 2);
+        s_dell.eVar24 = videoid;
+        s_dell.tl(true, 'o', videoid);
+      }
+    }
+  </script> 
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/vendor/what-input.js"></script>
+  <script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="v4/js/ooyala.js"></script>
+</body>
+</html>

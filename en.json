@@ -1,0 +1,22 @@
+{
+    "video_gallery" : "Video Gallery",
+    "filter_by" : "Filter by:",
+    "for_home" : "For Home",
+    "for_work" : "For Work",
+    "for_support" : "For Support",
+    "trending_intro" : "What people are watching now",
+    "search_term" : "Search term",
+    "support" : "Support",
+    "privacy" : "Privacy",
+    "terms" : "Terms and Conditions",
+    "laptops" : "Laptops",
+    "ultrabooks" : "Ultrabooks",
+    "alienware" : "Alienware",
+    "desktops" : "Desktops",
+    "all-in-ones" : "All-in-Ones",
+    "servers" : "Servers",
+    "networking" : "Networking",
+    "storage" : "Storage",
+    "solutions" : "Solutions",
+    "services" : "Services"
+}
